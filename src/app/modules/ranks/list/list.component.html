@@ -1,0 +1,8 @@
+<div class="year-list">
+  <ng-container *ngFor="let year of years">
+    <div class="year" (click)="getRankByYear(year)" [ngClass]="{'active':year === (selectedYear$ | async)}">{{year}}</div>
+  </ng-container>
+
+
+</div>
+<data-table [loading]="isLoading$ | async" [data]="ranks$ | async" [fields]="columns"></data-table>

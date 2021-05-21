@@ -1,0 +1,24 @@
+<table>
+  <thead>
+  <tr>
+    <th *ngFor="let col of fields">
+      {{col.name}}
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let row of data">
+    <td *ngFor="let col of fields">
+      <ng-container *ngIf="col.type==='image';else defaultType">
+        <img width="50" [src]="row[col.field]" alt="">
+      </ng-container>
+      <ng-template #defaultType>
+        {{row[col.field]}}
+      </ng-template>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<div class="loading" *ngIf="loading">
+  <span>Loading...</span>
+</div>

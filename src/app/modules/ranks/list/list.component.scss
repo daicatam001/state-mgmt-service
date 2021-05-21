@@ -1,0 +1,17 @@
+:host {
+  padding: 30px;
+  display: block;
+}
+
+.year-list {
+  display: flex;
+
+  .year {
+    margin: 10px;
+    cursor: pointer;
+
+    &.active {
+      text-decoration: underline;
+    }
+  }
+}
