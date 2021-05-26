@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {RankingTable, RankingTableTotal} from '../models/rank';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import {PaginationTeam, Team} from '../models/team';
 
 @Injectable({
   providedIn: 'root'
@@ -10,25 +10,16 @@ import {Observable} from 'rxjs';
 export class ApiService {
   readonly baseUrl = 'http://api.football-data.org/v2';
   readonly PREMIER_LEAGUE = 2021;
-  readonly RANK_TYPE = 'TOTAL';
 
   constructor(private http: HttpClient) {
   }
 
-  getRanks(year: number): Observable<RankingTableTotal> {
-    return this.http.get<RankingTable>(`${this.baseUrl}/competitions/${this.PREMIER_LEAGUE}/standings`)
-      .pipe(map((rt: RankingTable) => {
-        return {
-          competition: rt.competition,
-          ranks: rt.standings
-            .filter(st => st.type === this.RANK_TYPE)[0].table
-            .map(row => ({
-              ...row,
-              teamName: row.team.name,
-              teamCrestUrl: row.team.crestUrl
-            }))
-        };
-      }));
+  getTeams(start: number, rows: number): Observable<PaginationTeam> {
+    return this.http.get<PaginationTeam>(`${this.baseUrl}/competitions/${this.PREMIER_LEAGUE}/teams`).pipe(map(pt => ({
+      ...pt,
+      teams: pt.teams.slice(start * rows, rows)
+    })));
   }
+
 
 }

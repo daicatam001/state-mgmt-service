@@ -22,7 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'ranks',
-    loadChildren: () => import('./modules/ranks/ranks.module').then(m => m.RanksModule)
+    loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule)
   }
 ];
 
