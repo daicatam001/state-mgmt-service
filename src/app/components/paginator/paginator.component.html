@@ -1,0 +1,9 @@
+<div class="page">
+  <ng-container *ngFor="let page of pages">
+    <span class="page-item" [ngClass]="{'active':currentPage==page}" (click)="changePage(page)">{{page}}</span>
+  </ng-container>
+  <select  [(ngModel)]="rows"
+           (ngModelChange)="onRppChange()">
+    <option [value]="option" *ngFor="let option of rowPerPageOptions">{{option}}</option>
+  </select>
+</div>

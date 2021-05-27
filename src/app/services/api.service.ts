@@ -17,7 +17,7 @@ export class ApiService {
   getTeams(start: number, rows: number): Observable<PaginationTeam> {
     return this.http.get<PaginationTeam>(`${this.baseUrl}/competitions/${this.PREMIER_LEAGUE}/teams`).pipe(map(pt => ({
       ...pt,
-      teams: pt.teams.slice(start * rows, rows)
+      teams: pt.teams.slice(start * rows, rows * (start + 1))
     })));
   }
 

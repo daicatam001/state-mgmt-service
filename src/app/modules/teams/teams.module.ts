@@ -4,6 +4,7 @@ import {ListComponent} from './list/list.component';
 import {RouterModule, Routes} from '@angular/router';
 import DataTableModule from '../../components/data-table/data-table.module';
 import {ReactiveFormsModule} from '@angular/forms';
+import {PaginatorModule} from '../../components/paginator/paginator.module';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    PaginatorModule,
     DataTableModule,
     RouterModule.forChild(routes)
   ]

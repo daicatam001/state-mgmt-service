@@ -1,0 +1,8 @@
+.page-item {
+  margin: 0 5px;
+  cursor: pointer;
+
+  &.active {
+    text-decoration: underline;
+  }
+}

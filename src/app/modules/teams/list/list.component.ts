@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Team} from '../../../models/team';
 import {ListService} from './list.service';
 import {FormControl} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
+import {PageState} from '../../../components/paginator/paginator.component';
 
 @Component({
   selector: 'list',
@@ -20,8 +21,9 @@ export class ListComponent implements OnInit {
 
   query = new FormControl('');
 
-  teams$: Observable<Team[]> = this.listService.filter$;
-  isLoading$: Observable<boolean>;
+  teams$ = this.listService.filter$;
+  pageState$ = this.listService.pageState$;
+  isLoading$ = this.listService.isLoading$;
 
 
   constructor(private listService: ListService) {
@@ -33,5 +35,8 @@ export class ListComponent implements OnInit {
       .subscribe(val => this.listService.setQuery(val));
   }
 
+  onPageChange(pageState: PageState): void {
+    this.listService.changePage(pageState);
+  }
 
 }

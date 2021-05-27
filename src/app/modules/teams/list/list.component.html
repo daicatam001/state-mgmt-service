@@ -1,2 +1,10 @@
 <input type="text" [formControl]="query">
 <data-table [loading]="isLoading$ | async" [data]="teams$ | async" [fields]="columns"></data-table>
+<ng-container *ngIf="(pageState$ | async) as pageState">
+  <paginator [currentPage]="pageState.currentPage"
+             [rows]="pageState.rows"
+             [rowPerPageOptions]="[5,10,15]"
+             [totalRecords]="pageState.count"
+             (onPageChange)="onPageChange($event)"
+  ></paginator>
+</ng-container>

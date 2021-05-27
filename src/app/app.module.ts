@@ -21,7 +21,7 @@ const routes: Routes = [
     component: NotAuthorizedComponent
   },
   {
-    path: 'ranks',
+    path: 'teams',
     loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule)
   }
 ];
@@ -45,6 +45,7 @@ const routes: Routes = [
       multi: true
     }
   ],
+  exports: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {

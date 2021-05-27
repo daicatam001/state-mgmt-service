@@ -10,9 +10,3 @@ export interface PaginationTeam {
   teams: Team[];
 }
 
-
-export interface PageState {
-  first: number;
-  rows: number;
-  pageCount: number;
-}
