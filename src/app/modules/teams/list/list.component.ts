@@ -1,6 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {Observable} from 'rxjs';
-import {Team} from '../../../models/team';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ListService} from './list.service';
 import {FormControl} from '@angular/forms';
 import {debounceTime} from 'rxjs/operators';
@@ -10,7 +8,8 @@ import {PageState} from '../../../components/paginator/paginator.component';
   selector: 'list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ListService]
 })
 export class ListComponent implements OnInit {
 

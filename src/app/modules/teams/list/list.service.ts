@@ -5,9 +5,7 @@ import {ApiService} from '../../../services/api.service';
 import {PaginationTeam, Team} from '../../../models/team';
 import {PageState} from '../../../components/paginator/paginator.component';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class ListService implements OnDestroy {
 
   private isLoading = new BehaviorSubject<boolean>(false);
@@ -35,8 +33,8 @@ export class ListService implements OnDestroy {
   readonly filter$: Observable<Team[]> = this.filter.asObservable();
   readonly destroy$: Observable<any> = this.destroy.asObservable();
 
-  constructor(private apiService: ApiService) {
 
+  constructor(private apiService: ApiService) {
     // Load Data
     combineLatest([this.currentPage$.pipe(distinctUntilChanged()), this.rows$.pipe(distinctUntilChanged())])
       .pipe(takeUntil(this.destroy$))
@@ -45,7 +43,6 @@ export class ListService implements OnDestroy {
         switchMap(([currentPage, rows]) => this.apiService.getTeams(currentPage - 1, rows))
       )
       .subscribe(res => {
-        console.log(res);
         this.paginationTeam.next({...res});
         this.isLoading.next(false);
       });

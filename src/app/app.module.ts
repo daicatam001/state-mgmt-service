@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavBarComponent} from './components/nav-bar/nav-bar.component';
 import {NotAuthorizedComponent} from './components/not-authorized/not-authorized.component';
@@ -14,7 +13,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'ranks'
+    redirectTo: 'teams'
   },
   {
     path: 'not-auth',
@@ -36,7 +35,6 @@ const routes: Routes = [
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    AppRoutingModule
   ],
   providers: [
     {
