@@ -8,7 +8,7 @@ import {PageState} from '../../../components/paginator/paginator.component';
 @Injectable()
 export class ListService implements OnDestroy {
 
-  private isLoading = new BehaviorSubject<boolean>(false);
+  private loading = new BehaviorSubject<boolean>(false);
   private query = new BehaviorSubject<string>('');
   private paginationTeam = new BehaviorSubject<PaginationTeam>({count: 0, teams: []});
   private filter = new BehaviorSubject<Team[]>([]);
@@ -17,7 +17,7 @@ export class ListService implements OnDestroy {
   private destroy = new Subject();
 
 
-  readonly isLoading$: Observable<boolean> = this.isLoading.asObservable();
+  readonly loading$: Observable<boolean> = this.loading.asObservable();
   readonly paginationTeam$: Observable<PaginationTeam> = this.paginationTeam.asObservable();
   readonly teams$: Observable<Team[]> = this.paginationTeam$.pipe(map(item => item.teams));
   readonly count$: Observable<number> = this.paginationTeam$.pipe(map(item => item.count));
@@ -39,12 +39,12 @@ export class ListService implements OnDestroy {
     combineLatest([this.currentPage$.pipe(distinctUntilChanged()), this.rows$.pipe(distinctUntilChanged())])
       .pipe(takeUntil(this.destroy$))
       .pipe(
-        tap(() => this.isLoading.next(true)),
+        tap(() => this.loading.next(true)),
         switchMap(([currentPage, rows]) => this.apiService.getTeams(currentPage - 1, rows))
       )
       .subscribe(res => {
         this.paginationTeam.next({...res});
-        this.isLoading.next(false);
+        this.loading.next(false);
       });
 
     // filter

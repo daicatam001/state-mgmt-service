@@ -7,10 +7,9 @@ import {Team} from '../../models/team';
   styleUrls: ['./data-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DataTableComponent implements OnInit {
+export class DataTableComponent<T> implements OnInit {
 
-  @Input() data: Team[] = [];
-  @Input() fields: { name: string, field: string, type?: string }[];
+  @Input() data: T[] = [];
   @Input() loading: boolean;
 
   constructor() {

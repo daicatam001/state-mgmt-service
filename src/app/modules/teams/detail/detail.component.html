@@ -1,0 +1,31 @@
+<div *ngIf="(team$ | async) as team;else loadingTemp">
+  <div class="name">
+    <img [src]="team.crestUrl" width="40">
+    <h3>{{team.name}}</h3>
+  </div>
+  <div class="coach">
+    Coach: {{team.coach.name}}
+  </div>
+  <div class="squad">
+    <h3>Squad</h3>
+  </div>
+
+  <data-table #table [data]="team.players">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Position</th>
+      <th></th>
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let row of table.data">
+      <td><a [routerLink]="['..','player',row.id]">{{row.name}}</a></td>
+      <td>{{row.position}}</td>
+      <td><i class="fa fa-heart"></i></td>
+    </tr>
+    </tbody>
+  </data-table>
+
+</div>
+<ng-template #loadingTemp>Loading...</ng-template>

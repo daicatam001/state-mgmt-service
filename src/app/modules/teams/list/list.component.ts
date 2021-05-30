@@ -13,16 +13,11 @@ import {PageState} from '../../../components/paginator/paginator.component';
 })
 export class ListComponent implements OnInit {
 
-  columns = [
-    {name: 'Team Name', field: 'name'},
-    {name: 'Logo', field: 'crestUrl', type: 'image'},
-  ];
-
   query = new FormControl('');
 
   teams$ = this.listService.filter$;
   pageState$ = this.listService.pageState$;
-  isLoading$ = this.listService.isLoading$;
+  loading$ = this.listService.loading$;
 
 
   constructor(private listService: ListService) {

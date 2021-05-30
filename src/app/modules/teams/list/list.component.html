@@ -1,5 +1,18 @@
 <input type="text" [formControl]="query">
-<data-table [loading]="isLoading$ | async" [data]="teams$ | async" [fields]="columns"></data-table>
+<data-table #table [loading]="loading$ | async" [data]="teams$ | async">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Logo</th>
+  </thead>
+  <tbody>
+
+  <tr *ngFor="let row of table.data">
+    <td><a [routerLink]="[row.id]">{{row.name}}</a></td>
+    <td><img width="50" [src]="row.crestUrl" alt=""></td>
+  </tr>
+  </tbody>
+</data-table>
 <ng-container *ngIf="(pageState$ | async) as pageState">
   <paginator [currentPage]="pageState.currentPage"
              [rows]="pageState.rows"
