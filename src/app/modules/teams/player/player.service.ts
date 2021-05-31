@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {ApiService} from '../../../services/api.service';
 import {distinctUntilChanged, filter, mergeMap, pluck, takeUntil} from 'rxjs/operators';
 import {Player} from '../../../models/team';
@@ -12,10 +12,12 @@ export class PlayerService {
   private destroy = new Subject();
 
   readonly player$ = this.player.asObservable();
-  readonly destroy$ = this.destroy.asObservable()
+  readonly destroy$ = this.destroy.asObservable();
 
   constructor(private route: ActivatedRoute,
+              private router: Router,
               private apiService: ApiService) {
+    console.log(this.router.getCurrentNavigation().extras.state);
     this.route.params
       .pipe(takeUntil(this.destroy$))
       .pipe(

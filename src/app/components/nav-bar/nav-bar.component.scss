@@ -1,5 +1,15 @@
-.nav-bar{
+.nav-bar {
   padding: 10px;
   color: white;
   background-color: #3563ff;
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+  border-radius: 2px;
+  padding: 10px 20px;
 }

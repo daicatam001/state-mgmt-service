@@ -8,6 +8,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ReactiveFormsModule} from '@angular/forms';
 import {ApiKeyInterceptor} from './core/interceptors/apiKey.interceptor';
+import {AuthGuard} from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -21,7 +22,8 @@ const routes: Routes = [
   },
   {
     path: 'teams',
-    loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule)
+    loadChildren: () => import('./modules/teams/teams.module').then(m => m.TeamsModule),
+    canActivate: [AuthGuard]
   }
 ];
 

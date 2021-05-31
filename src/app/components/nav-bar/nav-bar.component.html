@@ -1,3 +1,10 @@
 <div class="nav-bar">
   <h2>State Management By Service Demo</h2>
+  <div class="auth" *ngIf="(user$ | async) as user;else unAuth">
+    I'm {{user.name}}, I like {{user.like}} and dislike {{user.dislike}}
+    <button (click)="logout()">Logout</button>
+  </div>
+  <ng-template #unAuth>
+    <button (click)="login()">Login</button>
+  </ng-template>
 </div>

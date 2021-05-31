@@ -1,1 +1,9 @@
-<player-card [data]="player$ | async"></player-card>
+<div class="card-container">
+  <div class="previous"><i class="fa fa-chevron-left" aria-hidden="true"></i></div>
+  <player-card [data]="player$ | async"></player-card>
+  <div class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></div>
+</div>
+<div class="action">
+  <button (click)="like()">Like</button>
+  <button (click)="dislike()">Dislike</button>
+</div>

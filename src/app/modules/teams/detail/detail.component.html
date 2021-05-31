@@ -10,22 +10,24 @@
     <h3>Squad</h3>
   </div>
 
-  <data-table #table [data]="team.players">
-    <thead>
-    <tr>
-      <th>Name</th>
-      <th>Position</th>
-      <th></th>
-    </thead>
-    <tbody>
+  <ng-container *ngIf="(teamIds$ | async) as teamIds">
+    <data-table #table [data]="team.players">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Position</th>
+        <th></th>
+      </thead>
+      <tbody>
 
-    <tr *ngFor="let row of table.data">
-      <td><a [routerLink]="['..','player',row.id]">{{row.name}}</a></td>
-      <td>{{row.position}}</td>
-      <td><i class="fa fa-heart"></i></td>
-    </tr>
-    </tbody>
-  </data-table>
+      <tr *ngFor="let row of table.data">
+        <td><a [routerLink]="['..','player',row.id]">{{row.name}}</a></td>
+        <td>{{row.position}}</td>
+        <td><i class="fa fa-heart"></i></td>
+      </tr>
+      </tbody>
+    </data-table>
+  </ng-container>
 
 </div>
 <ng-template #loadingTemp>Loading...</ng-template>

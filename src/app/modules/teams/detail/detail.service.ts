@@ -1,7 +1,7 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {BehaviorSubject, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, mergeMap, pluck, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, map, mergeMap, pluck, takeUntil} from 'rxjs/operators';
 import {ApiService} from '../../../services/api.service';
 import {TeamView} from '../../../models/team';
 
@@ -12,7 +12,8 @@ export class DetailService implements OnDestroy {
   private destroy = new Subject();
 
   readonly team$ = this.team.asObservable();
-  readonly destroy$ = this.destroy.asObservable()
+  readonly teamIds$ = this.team$.pipe(map(item => item.id));
+  readonly destroy$ = this.destroy.asObservable();
 
   constructor(private route: ActivatedRoute,
               private apiService: ApiService) {
@@ -22,7 +23,7 @@ export class DetailService implements OnDestroy {
         distinctUntilChanged(),
         pluck('id'),
         filter(id => !!id),
-        mergeMap((id: number ) => this.apiService.getTeam(id)))
+        mergeMap((id: number) => this.apiService.getTeam(id)))
       .subscribe((team: TeamView) => {
         this.team.next(team);
       });
