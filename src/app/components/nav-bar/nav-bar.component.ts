@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
+import {AuthStore} from '../../stores/auth.store';
 
 @Component({
   selector: 'nav-bar',
@@ -8,20 +9,20 @@ import {AuthService} from '../../services/auth.service';
 })
 export class NavBarComponent implements OnInit {
 
-  readonly user$ = this.authService.user$;
+  readonly user$ = this.authStore.user$;
 
-  constructor(private authService: AuthService) {
+  constructor(private authStore: AuthStore) {
   }
 
   ngOnInit(): void {
   }
 
   login(): void {
-    this.authService.login();
+    this.authStore.login();
   }
 
   logout(): void {
-    this.authService.logout();
+    this.authStore.logout();
   }
 
 }
