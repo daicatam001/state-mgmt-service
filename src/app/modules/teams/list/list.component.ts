@@ -1,36 +1,40 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ListService} from './list.service';
 import {FormControl} from '@angular/forms';
-import {debounceTime} from 'rxjs/operators';
 import {PageState} from '../../../components/paginator/paginator.component';
+import {ListStore} from './list.store';
 
 @Component({
   selector: 'list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [ListService]
+  providers: [ListStore]
 })
 export class ListComponent implements OnInit {
 
   query = new FormControl('');
 
-  teams$ = this.listService.filter$;
-  pageState$ = this.listService.pageState$;
-  loading$ = this.listService.loading$;
+  readonly vm$ = this.listStore.vm$
 
 
-  constructor(private listService: ListService) {
+  constructor(private listStore: ListStore) {
   }
 
   ngOnInit(): void {
-    this.query.valueChanges
-      .pipe(debounceTime(300))
-      .subscribe(val => this.listService.setQuery(val));
+    // this.listStore.getPaginationTeamEffect()
+    // this.query.valueChanges
+    //   .pipe(debounceTime(300))
+    //   .subscribe(val => this.listService.setQuery(val));
   }
 
   onPageChange(pageState: PageState): void {
-    this.listService.changePage(pageState);
+    console.log('Page state ', pageState);
+    this.listStore.patchState({
+      first: pageState.first,
+      rows: pageState.rows
+    });
+    // this.listService.changePage(pageState);
   }
 
 }

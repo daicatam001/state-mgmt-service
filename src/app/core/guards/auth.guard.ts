@@ -4,20 +4,21 @@ import {
   CanActivate,
   CanActivateChild,
   CanLoad,
-  Route, Router,
+  Route,
+  Router,
   RouterStateSnapshot,
   UrlSegment,
   UrlTree
 } from '@angular/router';
 import {Observable} from 'rxjs';
-import {AuthService} from '../../services/auth.service';
-import {take, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
+import {AuthStore} from '../../stores/auth.store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
-  constructor(private authService: AuthService,
+  constructor(private authStore: AuthStore,
               private router: Router) {
 
   }
@@ -41,8 +42,9 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   }
 
   private isAuth$(): Observable<boolean> {
-    return this.authService.isLoggedIn$.pipe(
+    return this.authStore.user$.pipe(
       take(1),
+      map(user => !!user),
       tap(isLoggedIn => {
         console.log(isLoggedIn);
         if (!isLoggedIn) {

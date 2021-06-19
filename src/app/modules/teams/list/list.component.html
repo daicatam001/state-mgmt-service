@@ -1,23 +1,26 @@
-<input type="text" [formControl]="query">
-<data-table #table [loading]="loading$ | async" [data]="teams$ | async">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Logo</th>
-  </thead>
-  <tbody>
+<ng-container *ngIf="vm$ | async as vm">
 
-  <tr *ngFor="let row of table.data">
-    <td><a [routerLink]="[row.id]">{{row.name}}</a></td>
-    <td><img width="50" [src]="row.crestUrl" alt=""></td>
-  </tr>
-  </tbody>
-</data-table>
-<ng-container *ngIf="(pageState$ | async) as pageState">
-  <paginator [currentPage]="pageState.currentPage"
-             [rows]="pageState.rows"
+  <input type="text" [formControl]="query">
+  <data-table #table [loading]="vm.loading" [data]="vm.origin">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Logo</th>
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let row of table.data">
+      <td><a [routerLink]="[row.id]">{{row.name}}</a></td>
+      <td><img width="50" [src]="row.crestUrl" alt=""></td>
+    </tr>
+    </tbody>
+  </data-table>
+  <!--<ng-container *ngIf="(pageState$ | async) as pageState">-->
+  <paginator [currentPage]="vm.first"
+             [rows]="vm.rows"
              [rowPerPageOptions]="[5,10,15]"
-             [totalRecords]="pageState.count"
+             [totalRecords]="vm.totalRecords"
              (onPageChange)="onPageChange($event)"
   ></paginator>
+  <!--</ng-container>-->
 </ng-container>
