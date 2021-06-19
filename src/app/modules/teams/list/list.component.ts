@@ -3,6 +3,7 @@ import {ListService} from './list.service';
 import {FormControl} from '@angular/forms';
 import {PageState} from '../../../components/paginator/paginator.component';
 import {ListStore} from './list.store';
+import {debounceTime} from 'rxjs/operators';
 
 @Component({
   selector: 'list',
@@ -23,9 +24,9 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     // this.listStore.getPaginationTeamEffect()
-    // this.query.valueChanges
-    //   .pipe(debounceTime(300))
-    //   .subscribe(val => this.listService.setQuery(val));
+    this.query.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe(val => this.listStore.patchState({query: val}));
   }
 
   onPageChange(pageState: PageState): void {
@@ -34,6 +35,7 @@ export class ListComponent implements OnInit {
       first: pageState.first,
       rows: pageState.rows
     });
+    this.query.setValue('');
     // this.listService.changePage(pageState);
   }
 

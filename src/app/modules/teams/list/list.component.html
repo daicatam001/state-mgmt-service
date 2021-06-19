@@ -1,7 +1,7 @@
 <ng-container *ngIf="vm$ | async as vm">
 
   <input type="text" [formControl]="query">
-  <data-table #table [loading]="vm.loading" [data]="vm.origin">
+  <data-table #table [loading]="vm.loading" [data]="vm.filter">
     <thead>
     <tr>
       <th>Name</th>

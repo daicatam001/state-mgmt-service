@@ -1,6 +1,6 @@
 import {ComponentStore, tapResponse} from '@ngrx/component-store';
 import {Team} from '../../../models/team';
-import {switchMap, tap} from 'rxjs/operators';
+import {map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {ApiService} from '../../../services/api.service';
 import {PageState} from '../../../components/paginator/paginator.component';
 import {Injectable} from '@angular/core';
@@ -26,13 +26,23 @@ export class ListStore extends ComponentStore<ListState> {
             console.log(res)
             this.patchState(
               {
-                origin: res.teams,
+                origin: [...res.teams],
+                filter: [...res.teams],
                 totalRecords: res.count,
                 loading: false
               });
           },
           error => this.patchState({loading: false}))
-      ))
+      )),
+    )
+  )
+
+  filterTeamsEffect = this.effect<string>(query$ =>
+    query$.pipe(
+      withLatestFrom(this.select(s => s.origin)),
+      tap(([query, origin]) => this.patchState({
+        filter: query ? origin.filter(item => item.name.toLowerCase().includes(query.toLowerCase())) : origin
+      }))
     )
   )
 
@@ -46,11 +56,10 @@ export class ListStore extends ComponentStore<ListState> {
       rows: 10,
       totalRecords: 0
     });
-    this.select(state => state.first).subscribe(val => console.log(val))
-
     this.getPaginationTeamsEffect(
       combineLatest([this.select(s => s.first), this.select(s => s.rows)])
     );
+    this.filterTeamsEffect(this.select(s => s.query));
   }
 
 
