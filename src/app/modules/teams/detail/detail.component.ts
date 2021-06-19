@@ -1,19 +1,18 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {DetailService} from './detail.service';
+import {DetailStore} from './detail.store';
 
 @Component({
   selector: 'detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
-  providers: [DetailService],
+  providers: [DetailStore],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DetailComponent implements OnInit {
 
-  readonly team$ = this.detailService.team$;
-  readonly teamIds$ = this.detailService.teamIds$;
+  vm$ = this.detailStore.vm$;
 
-  constructor(private detailService: DetailService) {
+  constructor(private detailStore: DetailStore) {
   }
 
   ngOnInit(): void {

@@ -1,17 +1,16 @@
-<div *ngIf="(team$ | async) as team;else loadingTemp">
+<div *ngIf="(vm$ | async) as vm;else loadingTemp">
   <div class="name">
-    <img [src]="team.crestUrl" width="40">
-    <h3>{{team.name}}</h3>
+    <img [src]="vm.crestUrl" width="40">
+    <h3>{{vm.name}}</h3>
   </div>
   <div class="coach">
-    Coach: {{team.coach.name}}
+    Coach: {{vm.coach?.name}}
   </div>
   <div class="squad">
     <h3>Squad</h3>
   </div>
 
-  <ng-container *ngIf="(teamIds$ | async) as teamIds">
-    <data-table #table [data]="team.players">
+    <data-table #table [data]="vm.players">
       <thead>
       <tr>
         <th>Name</th>
@@ -27,7 +26,5 @@
       </tr>
       </tbody>
     </data-table>
-  </ng-container>
-
 </div>
 <ng-template #loadingTemp>Loading...</ng-template>

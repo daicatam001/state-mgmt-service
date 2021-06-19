@@ -17,7 +17,7 @@ export interface TeamDetail {
   squad: Member[];
 }
 
-export interface TeamView extends TeamDetail {
+export interface TeamView extends Omit<TeamDetail, 'squad'> {
   coach: Member;
   players: Member[];
 }
