@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {BehaviorSubject, combineLatest, Observable, of, Subject} from 'rxjs';
-import {distinctUntilChanged, map, mergeMap, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, map, mergeMap, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ApiService} from '../../../services/api.service';
 import {PaginationTeam, Team} from '../../../models/team';
 import {PageState} from '../../../components/paginator/paginator.component';
@@ -21,8 +21,8 @@ export class ListService implements OnDestroy {
   readonly paginationTeam$: Observable<PaginationTeam> = this.paginationTeam.asObservable();
   readonly teams$: Observable<Team[]> = this.paginationTeam$.pipe(map(item => item.teams));
   readonly count$: Observable<number> = this.paginationTeam$.pipe(map(item => item.count));
-  readonly currentPage$: Observable<number> = this.currentPage.asObservable();
-  readonly rows$: Observable<number> = this.rows.asObservable();
+  readonly currentPage$: Observable<number> = this.currentPage.asObservable().pipe(distinctUntilChanged());
+  readonly rows$: Observable<number> = this.rows.asObservable().pipe(distinctUntilChanged());
   readonly pageState$: Observable<{
     currentPage: number,
     rows: number,
@@ -36,9 +36,10 @@ export class ListService implements OnDestroy {
 
   constructor(private apiService: ApiService) {
     // Load Data
-    combineLatest([this.currentPage$.pipe(distinctUntilChanged()), this.rows$.pipe(distinctUntilChanged())])
+    combineLatest([this.currentPage$, this.rows$])
       .pipe(takeUntil(this.destroy$))
       .pipe(
+        debounceTime(400),
         tap(() => this.loading.next(true)),
         switchMap(([currentPage, rows]) => this.apiService.getTeams(currentPage - 1, rows))
       )
