@@ -12,7 +12,6 @@ export class DetailService implements OnDestroy {
   private destroy = new Subject();
 
   readonly team$ = this.team.asObservable();
-  readonly teamIds$ = this.team$.pipe(map(item => item.id));
   readonly destroy$ = this.destroy.asObservable();
 
   constructor(private route: ActivatedRoute,

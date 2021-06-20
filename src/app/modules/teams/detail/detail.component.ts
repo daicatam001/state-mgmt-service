@@ -11,7 +11,6 @@ import {DetailService} from './detail.service';
 export class DetailComponent implements OnInit {
 
   readonly team$ = this.detailService.team$;
-  readonly teamIds$ = this.detailService.teamIds$;
 
   constructor(private detailService: DetailService) {
   }
