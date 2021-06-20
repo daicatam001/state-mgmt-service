@@ -1,6 +1,6 @@
 import {ComponentStore, tapResponse} from '@ngrx/component-store';
 import {Team} from '../../../models/team';
-import {map, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {ApiService} from '../../../services/api.service';
 import {PageState} from '../../../components/paginator/paginator.component';
 import {Injectable} from '@angular/core';
@@ -17,6 +17,22 @@ export interface ListState extends PageState {
 export class ListStore extends ComponentStore<ListState> {
 
   readonly vm$ = this.select(state => state);
+
+  constructor(private apiService: ApiService) {
+    super({
+      loading: false,
+      query: '',
+      origin: [],
+      filter: [],
+      first: 1,
+      rows: 10,
+      totalRecords: 0
+    });
+    this.getPaginationTeamsEffect(
+      combineLatest([this.select(s => s.first), this.select(s => s.rows)])
+    );
+    this.filterTeamsEffect(this.select(s => s.query));
+  }
 
   getPaginationTeamsEffect = this.effect<[number, number]>(pageState$ =>
     pageState$.pipe(
@@ -45,22 +61,5 @@ export class ListStore extends ComponentStore<ListState> {
       }))
     )
   )
-
-  constructor(private apiService: ApiService) {
-    super({
-      loading: false,
-      query: '',
-      origin: [],
-      filter: [],
-      first: 1,
-      rows: 10,
-      totalRecords: 0
-    });
-    this.getPaginationTeamsEffect(
-      combineLatest([this.select(s => s.first), this.select(s => s.rows)])
-    );
-    this.filterTeamsEffect(this.select(s => s.query));
-  }
-
 
 }

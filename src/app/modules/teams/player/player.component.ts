@@ -1,30 +1,28 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {PlayerService} from './player.service';
-import {AuthService} from '../../../services/auth.service';
+import {PlayerStore} from './player.store';
 
 @Component({
   selector: 'player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [PlayerService]
+  providers: [PlayerStore]
 })
 export class PlayerComponent implements OnInit {
 
-  readonly player$ = this.playerService.player$;
+  readonly vm$ = this.playerStore.vm$;
 
-  constructor(private playerService: PlayerService,
-              private authService: AuthService) {
+  constructor(private playerStore: PlayerStore) {
   }
 
   ngOnInit(): void {
   }
 
   like(): void {
-    this.authService.incrementLike();
+    this.playerStore.incrementLike();
   }
 
   dislike(): void {
-    this.authService.incrementDislike();
+    this.playerStore.incrementDislike();
   }
 }

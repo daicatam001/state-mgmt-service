@@ -1,6 +1,6 @@
 import {ComponentStore} from '@ngrx/component-store';
 import {Observable} from 'rxjs';
-import {tap} from 'rxjs/operators';
+import {tap, withLatestFrom} from 'rxjs/operators';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 
@@ -22,6 +22,27 @@ export class AuthStore extends ComponentStore<AuthState> {
 
   readonly updateUser = this.updater((state, user: User) => ({...state, user}));
 
+  readonly incrementLike = this.updater(state => ({
+    ...state,
+    user: {
+      ...state.user,
+      like: state.user.like + 1
+    }
+  }))
+
+  readonly incrementDislike = this.updater(state => ({
+    ...state,
+    user: {
+      ...state.user,
+      dislike: state.user.dislike + 1
+    }
+  }))
+
+  constructor(private router: Router) {
+    super({user: null});
+    this.initUserData();
+    this.saveUser(this.user$);
+  }
 
   saveUser = this.effect((user$: Observable<User>) => {
     return user$.pipe(
@@ -71,10 +92,4 @@ export class AuthStore extends ComponentStore<AuthState> {
       })
     )
   )
-
-  constructor(private router: Router) {
-    super({user: null});
-    this.initUserData();
-    this.saveUser(this.user$);
-  }
 }
